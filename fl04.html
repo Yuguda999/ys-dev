@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FL-04 Orchestrator | Yuguda Muhammed Shamsudeen</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Space+Grotesk:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="site-nav">
+        <span class="brand">YS // DEV</span>
+        <nav class="links">
+            <a href="index.html">Home</a>
+            <a href="fl04.html">FL-04</a>
+            <a href="campuspq.html">CampusPQ</a>
+            <a href="edix.html">Edix</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="case-header">
+            <a class="back" href="index.html">&larr; All case studies</a>
+            <h1>FL-04 Orchestrator</h1>
+            <p class="tagline">Upgrading ADR documentation: from a fixed workflow toward an agent.</p>
+        </div>
+
+        <section class="block">
+            <h2>The Problem</h2>
+            <p>
+                Architectural Decision Records (ADRs) were being produced through a manual
+                "Draft &rarr; Red Team &rarr; Revise" loop: one model drafts the ADR, a second
+                model critiques it against a fixed checklist, and the first model revises.
+                Every document goes through all three steps regardless of how trivial or complex
+                the change is, which wastes time and tokens on small updates.
+            </p>
+        </section>
+
+        <section class="block">
+            <h2>Current State: A Workflow, Not an Agent</h2>
+            <p>
+                As it stands today, FL-04 is a <strong>workflow</strong>, not an agent. The
+                sequence of steps is hardcoded &mdash; draft, critique, revise &mdash; and neither
+                model decides when to skip a step or call a tool. It's an evaluator-optimizer
+                pattern: the code, not the LLM, controls the path.
+            </p>
+            <p>
+                The screenshot below is the local inference server (vLLM) that serves the
+                open-weight model behind this pipeline, handling the
+                <code>/v1/chat/completions</code> calls for each draft/critique/revise step.
+            </p>
+            <img class="case-image" src="images/fl04-vllm-logs.png" alt="vLLM inference server logs showing successful /v1/chat/completions requests">
+        </section>
+
+        <section class="block">
+            <h2>The Planned Upgrade: An Orchestrator Agent</h2>
+            <p>
+                To make this an agent, control has to move from the hardcoded sequence into the
+                model itself. The concrete upgrade is an <strong>Orchestrator Agent</strong> that
+                looks at the size of a change first: a minor config tweak gets drafted and
+                finalized in one pass, skipping the red team; a major architectural change gets
+                the agent pulling in extra context (searching the codebase, checking related
+                ADRs) before drafting, and only then deciding to invoke the red-team critique.
+                This part is designed, not yet built &mdash; the current live pipeline is still
+                the fixed three-step workflow described above.
+            </p>
+        </section>
+
+        <section class="block">
+            <h2>Tech Stack</h2>
+            <ul class="tech-stack">
+                <li>LLM Workflows</li>
+                <li>vLLM / Local Inference</li>
+                <li>Prompt Engineering</li>
+                <li>Python</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <a href="https://github.com/Yuguda999" target="_blank" rel="noopener">GitHub</a>
+        <a href="mailto:muhammed.yuguda@adeptengr.com">Email</a>
+    </footer>
+</body>
+</html>
