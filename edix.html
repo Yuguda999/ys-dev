@@ -35,13 +35,33 @@
         </section>
 
         <section class="block">
+            <h2>Current State: Deployed on Testnet</h2>
+            <p>
+                Edix is deployed and in real use &mdash; schools are issuing credentials through
+                it today, not just running it as a prototype. It's currently running on
+                Cardano's preprod (testnet) network, not mainnet yet, so the ADA fees involved
+                are test tokens, not real money.
+            </p>
+        </section>
+
+        <section class="block">
             <h2>The Solution</h2>
             <p>
                 I designed a school management platform that integrates Cardano blockchain
                 features directly into the database architecture. Each school gets its own
-                sovereign identity (DID) and wallet; certificate verification is anchored to
-                the decentralized ledger, so records are immutable and can't be tampered with
-                by editing a local database alone.
+                sovereign identity (DID) and wallet. When a certificate is issued, its hash
+                (not the certificate content itself) is written on-chain as a transaction, one
+                per certificate &mdash; so anyone can verify a certificate is genuine by
+                re-hashing it and checking the result against the chain, without exposing
+                student data on a public ledger. Grades keep no chain footprint until a school
+                actually issues a certificate.
+            </p>
+            <p>
+                Cardano was chosen over other chains mainly for transaction cost: issuing one
+                hash per certificate at scale needs fees low enough that per-student cost stays
+                negligible on mainnet, which rules out most higher-fee chains. Testing on
+                preprod first lets that cost assumption get validated before any real ADA
+                is spent.
             </p>
             <p>
                 Below is the school's identity and wallet screen, on Cardano's preprod test

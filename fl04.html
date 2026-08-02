@@ -22,7 +22,7 @@
         <div class="case-header">
             <a class="back" href="index.html">&larr; All case studies</a>
             <h1>FL-04 Orchestrator</h1>
-            <p class="tagline">Upgrading ADR documentation: from a fixed workflow toward an agent.</p>
+            <p class="tagline">Upgrading Architectural Decision Record (ADR) documentation: from a fixed workflow toward an agent.</p>
         </div>
 
         <section class="block">
@@ -57,12 +57,13 @@
             <p>
                 To make this an agent, control has to move from the hardcoded sequence into the
                 model itself. The concrete upgrade is an <strong>Orchestrator Agent</strong> that
-                looks at the size of a change first: a minor config tweak gets drafted and
-                finalized in one pass, skipping the red team; a major architectural change gets
-                the agent pulling in extra context (searching the codebase, checking related
-                ADRs) before drafting, and only then deciding to invoke the red-team critique.
-                This part is designed, not yet built &mdash; the current live pipeline is still
-                the fixed three-step workflow described above.
+                looks at the size of a change first: minor vs. major is decided by a diff-size
+                threshold (lines/files touched by the change) &mdash; below it, the agent drafts
+                and finalizes in one pass, skipping the red team; above it, the agent pulls in
+                extra context (searching the codebase, checking related ADRs) before drafting,
+                and only then decides to invoke the red-team critique. This part is designed,
+                not yet built &mdash; the current live pipeline is still the fixed three-step
+                workflow described above.
             </p>
         </section>
 
