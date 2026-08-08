@@ -29,7 +29,8 @@ header.site-nav {
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 40px;
+    gap: 4px 16px;
+    padding: 14px 24px;
     border-bottom: 1px solid var(--border);
     background: var(--card-bg);
 }
@@ -41,8 +42,15 @@ header.site-nav {
     letter-spacing: 1px;
 }
 
+nav.links {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -10px;   /* cancel the last link's padding so it aligns flush */
+}
+
+/* padding (not margin) so each link is its own ~44px tap target on a phone */
 nav.links a {
-    margin-left: 24px;
+    padding: 10px;
     color: var(--text);
     font-weight: 600;
     font-size: 0.95em;
@@ -56,8 +64,12 @@ main {
     padding: 48px 24px 80px;
 }
 
+/* clamp() = never smaller than 1.75rem, never bigger than 2.4rem,
+   scaling with viewport width in between — stops the name eating
+   three lines on a phone */
 .hero h1 {
-    font-size: 2.2em;
+    font-size: clamp(1.75rem, 6vw, 2.4rem);
+    line-height: 1.15;
     margin-bottom: 4px;
     color: var(--accent);
     letter-spacing: 1px;
@@ -93,15 +105,33 @@ main {
 .case-card:hover { border-color: var(--accent); text-decoration: none; }
 
 .case-header { margin-bottom: 32px; }
-.case-header .back { display: inline-block; margin-bottom: 16px; font-size: 0.9em; }
-.case-header h1 { margin-bottom: 4px; }
+.case-header .back {
+    display: inline-block;
+    margin-bottom: 16px;
+    padding: 6px 0;      /* taller tap target on mobile */
+    font-size: 0.9em;
+}
+.case-header h1 {
+    font-size: clamp(1.6rem, 5.5vw, 2rem);
+    line-height: 1.2;
+    margin-bottom: 4px;
+}
+
+/* wraps the screenshot in a link so a phone user can open the full-size
+   image instead of squinting at a 1400px capture shrunk to 340px */
+.case-figure { margin: 24px 0; }
 
 .case-image {
     width: 100%;
     border: 1px solid var(--border);
     border-radius: 8px;
-    margin: 24px 0;
     display: block;
+}
+
+.case-figure figcaption {
+    font-size: 0.85em;
+    color: var(--muted);
+    margin-top: 8px;
 }
 
 section.block { margin-bottom: 28px; }
@@ -132,4 +162,15 @@ footer.site-footer {
     font-size: 0.9em;
 }
 
-footer.site-footer a { margin: 0 10px; }
+footer.site-footer a {
+    display: inline-block;
+    margin: 0 4px;
+    padding: 10px;      /* tap target */
+}
+
+/* ---------- mobile ---------- */
+@media (max-width: 600px) {
+    header.site-nav { padding: 10px 16px; }
+    main { padding: 32px 18px 56px; }
+    .case-card { padding: 20px; }
+}
