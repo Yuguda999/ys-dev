@@ -1,0 +1,31 @@
+# Static site — no build step, no framework.
+# Everything at the repo root is the published site.
+
+[build]
+  publish = "."
+
+[[redirects]]
+  from = "/index"
+  to = "/"
+  status = 301
+
+# Old portfolio-v2 section names, in case anything still links to them.
+[[redirects]]
+  from = "/ml"
+  to = "/#work"
+  status = 301
+
+[[redirects]]
+  from = "/backend"
+  to = "/#capabilities"
+  status = 301
+
+[[redirects]]
+  from = "/combined"
+  to = "/#work"
+  status = 301
+
+[[redirects]]
+  from = "/resume"
+  to = "/MY_AI_ENG_CV.pdf"
+  status = 301
