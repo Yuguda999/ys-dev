@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="theme-color" content="#08090A">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CampusPQ — Yuguda Muhammed</title>
-<meta name="description" content="A multimodal AI learning platform — PDF, image, audio and video pipelines with LLM analysis and vector search, scaled to 5k+ processed questions.">
+<title>Proposal Generation Engine — Yuguda Muhammed</title>
+<meta name="description" content="A production LLM reasoning system that ingests government solicitation documents and returns scored, schema-validated proposal output.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -36,75 +36,94 @@
 <main id="main"><article class="case">
   <header class="case-hero">
     <a class="back" href="index.html#work">← Selected work</a>
-    <h1 data-reveal="mask">CampusPQ</h1>
-    <p class="lede">A multimodal AI learning platform: document, image, audio and video pipelines with LLM analysis and semantic search behind them.</p>
+    <h1 data-reveal="mask">Proposal Generation Engine</h1>
+    <p class="lede">A production LLM reasoning system that reads raw government solicitations and returns scored, schema-validated output through an API.</p>
   </header>
 
   <div class="case-facts" data-reveal>
-    <div><div class="k">Type</div><div class="v">Multimodal ML platform</div></div>
-    <div><div class="k">Scale</div><div class="v">5k+ questions processed</div></div>
-    <div><div class="k">Success rate</div><div class="v">98%</div></div>
-    <div><div class="k">Deployment</div><div class="v">AWS, CI/CD</div></div>
+    <div><div class="k">Role</div><div class="v">Lead AI Engineer</div></div>
+    <div><div class="k">Client</div><div class="v">Adept Engineering Solutions</div></div>
+    <div><div class="k">Status</div><div class="v">In production</div></div>
+    <div><div class="k">Period</div><div class="v">Jul 2024 — present</div></div>
   </div>
 
   <section class="block" data-reveal>
     <h2>The problem</h2>
     <p>
-      Study material does not arrive in one clean format. Students bring PDFs, photographs of
-      handwritten notes, lecture recordings and video. A platform that can only read text handles a
-      fraction of what people actually have, and AI inference over the rest is slow enough that a
-      naive request-per-user design falls over as soon as more than a handful of students are
-      working at once.
+      Government solicitation documents are long, inconsistently formatted PDFs. Responding to one
+      means reading it end to end, pulling out every requirement, and producing a structured
+      response that maps back to those requirements. Done by hand it is slow; done naively with a
+      single LLM call it is unreliable — the model skips requirements, invents structure, and
+      returns output no downstream system can safely parse.
     </p>
   </section>
 
   <section class="block" data-reveal>
     <h2>Approach</h2>
-    <h3>One pipeline per modality, one analysis layer</h3>
+    <h3>Multi-step reasoning instead of one big prompt</h3>
     <p>
-      I built production pipelines for PDF, image, audio and video that normalise each input into a
-      form the LLM analysis layer can reason over uniformly. Adding a modality means adding an
-      ingestion path, not rewriting the intelligence on top of it.
+      The system is an autonomous agent that works in stages: ingest the raw PDF or JSON, structure
+      the unstructured content, reason over the structured form in multiple steps, then score and
+      format the result. Splitting the work this way means each stage has a narrow, checkable job
+      rather than one prompt carrying the entire task.
     </p>
-    <h3>Vector search for content discovery</h3>
+    <h3>A JSON schema at every boundary</h3>
     <p>
-      Embeddings and vector search drive recommendation and content discovery, so a student's
-      question finds related material by meaning rather than keyword overlap.
+      Every input and output stage has a defined JSON schema and a validation step. Anything that
+      does not conform is caught at the boundary it failed at rather than surfacing as a confusing
+      error three stages later. This is the single change that did the most for reliability.
     </p>
-    <h3>Async serving under concurrency</h3>
+    <h3>Retrieval over noisy real data</h3>
     <p>
-      The backend is Python and FastAPI, designed to handle asynchronous inference requests while
-      keeping a lightweight footprint, so response times hold as more students and tutors use the
-      platform at the same time. Below is the live OpenAPI documentation for the service.
+      Ingestion, preprocessing, embedding and semantic-retrieval pipelines run over real-world
+      documents, with explicit handling for the edge cases and failure modes that only appear once
+      you are processing genuine files rather than clean samples.
     </p>
-    <figure class="figure" data-reveal>
-      <a href="images/campuspq-api-docs.png" target="_blank" rel="noopener">
-        <img src="images/campuspq-api-docs.png" alt="CampusPQ OpenAPI documentation showing health and authentication endpoints" loading="lazy" width="1400" height="685">
-      </a>
-      <figcaption>The service's OpenAPI documentation. Tap to open full size.</figcaption>
-    </figure>
   </section>
 
   <section class="block" data-reveal>
-    <h2>Operationalisation</h2>
+    <h2>Evaluation</h2>
     <p>
-      Alongside the models sits the layer that makes them usable: REST and JSON APIs, performance
-      tracking, automated testing and CI/CD. The platform scaled to over 5,000 processed questions
-      at a 98% success rate — the failures worth chasing being malformed uploads and edge-case media
-      rather than model quality.
+      Quality was not assumed — it was measured. I established repeatable evaluation benchmarks
+      that every release runs against, so a prompt change or model swap produces a number rather
+      than an argument. Iterating against those benchmarks, with prompt optimisation and structured
+      output validation, is what moved the system from acceptable to dependable.
+    </p>
+    <p class="note">
+      <strong>Result:</strong> output quality moved from roughly 30% to 90%+ against the evaluation
+      criteria defined for the system.
+    </p>
+  </section>
+
+  <section class="block" data-reveal>
+    <h2>Serving it</h2>
+    <p>
+      The system is exposed as a FastAPI service deployed on AWS with Docker. It was engineered for
+      about 100 concurrent users: Redis caching on repeated work, horizontal scaling, and latency
+      monitoring to keep responses inside their target window under load. I also authored the
+      system-architecture specs and methodology documentation that other engineering teams build
+      against.
     </p>
   </section>
 
   <section class="block" data-reveal>
     <h2>Stack</h2>
     <ul class="tags">
-      <li class="hot">Python</li><li class="hot">Multimodal pipelines</li><li>FastAPI</li>
-      <li>OpenAI</li><li>VectorDB</li><li>PostgreSQL</li><li>Docker</li><li>AWS</li>
+      <li class="hot">Python</li><li class="hot">LangChain / LangGraph</li><li>FastAPI</li>
+      <li>PostgreSQL</li><li>Redis</li><li>Docker</li><li>AWS</li><li>OpenAI</li>
     </ul>
   </section>
+
+  <section class="block" data-reveal>
+    <h2>Note on detail</h2>
+    <p>
+      This is client work, so the repository and document corpus are not public. The architecture,
+      evaluation methodology and results above are described at the level I can share.
+    </p>
+  </section>
   <nav class="case-next">
-    <a href="fl04.html">← FL-04 Orchestrator</a>
-    <a href="edix.html">Project Edix →</a>
+    <a href="index.html#work">← All work</a>
+    <a href="fl04.html">FL-04 Orchestrator →</a>
   </nav>
 </article></main>
 
