@@ -1,94 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Edix | Yuguda Muhammed Shamsudeen</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Space+Grotesk:wght@600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="theme-color" content="#08090A">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Edix — Yuguda Muhammed</title>
+<meta name="description" content="School management platform anchoring academic certificates to the Cardano blockchain so they can be verified without exposing student data.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="site-nav">
-        <span class="brand">YS // DEV</span>
-        <nav class="links">
-            <a href="index.html">Home</a>
-            <a href="fl04.html">FL-04</a>
-            <a href="campuspq.html">CampusPQ</a>
-            <a href="edix.html">Edix</a>
-        </nav>
-    </header>
+<a class="skip" href="#main">Skip to content</a>
 
-    <main>
-        <div class="case-header">
-            <a class="back" href="index.html">&larr; All case studies</a>
-            <h1>Project Edix</h1>
-            <p class="tagline">Securing academic records with blockchain.</p>
-        </div>
+<header class="nav">
+  <div class="nav-in">
+    <a class="brand" href="index.html"><span class="mark">ym</span> Yuguda<span style="color:var(--accent)">.</span></a>
+    <nav class="nav-links">
+      <a href="index.html#work">Work</a>
+      <a href="index.html#capabilities">Capabilities</a>
+      <a href="index.html#experience">Experience</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+    <div class="nav-tools">
+      <a class="btn-resume" href="MY_AI_ENG_CV.pdf" target="_blank" rel="noopener">Résumé</a>
+      <button class="btn-ghost" data-cmdk-open type="button">
+        <span>Search</span><span class="kbd"><span data-mod>⌘</span>K</span>
+      </button>
+      <button class="btn-ghost btn-icon" data-theme-toggle type="button" aria-label="Toggle theme">☀</button>
+    </div>
+  </div>
+</header>
 
-        <section class="block">
-            <h2>The Problem</h2>
-            <p>
-                Primary and secondary schools face two related risks: grades can be altered
-                directly in a school's database, and digital certificates issued to students
-                are hard for anyone outside the school to verify as genuine.
-            </p>
-        </section>
+<main id="main"><article class="case">
+  <header class="case-hero">
+    <a class="back" href="index.html#more">← More projects</a>
+    <h1 data-reveal="mask">Project Edix</h1>
+    <p class="lede">Systems work: anchoring academic certificates to a blockchain so anyone can verify them, without putting student data on a public ledger.</p>
+  </header>
 
-        <section class="block">
-            <h2>Current State: Deployed on Testnet</h2>
-            <p>
-                Edix is deployed and in real use &mdash; schools are issuing credentials through
-                it today, not just running it as a prototype. It's currently running on
-                Cardano's preprod (testnet) network, not mainnet yet, so the ADA fees involved
-                are test tokens, not real money.
-            </p>
-        </section>
+  <div class="case-facts" data-reveal>
+    <div><div class="k">Type</div><div class="v">Systems / architecture</div></div>
+    <div><div class="k">Chain</div><div class="v">Cardano preprod</div></div>
+    <div><div class="k">Status</div><div class="v">In use by schools</div></div>
+    <div><div class="k">Not</div><div class="v">An ML project</div></div>
+  </div>
 
-        <section class="block">
-            <h2>The Solution</h2>
-            <p>
-                I designed a school management platform that integrates Cardano blockchain
-                features directly into the database architecture. Each school gets its own
-                sovereign identity (DID) and wallet. When a certificate is issued, its hash
-                (not the certificate content itself) is written on-chain as a transaction, one
-                per certificate &mdash; so anyone can verify a certificate is genuine by
-                re-hashing it and checking the result against the chain, without exposing
-                student data on a public ledger. Grades keep no chain footprint until a school
-                actually issues a certificate.
-            </p>
-            <p>
-                Cardano was chosen over other chains mainly for transaction cost: issuing one
-                hash per certificate at scale needs fees low enough that per-student cost stays
-                negligible on mainnet, which rules out most higher-fee chains. Testing on
-                preprod first lets that cost assumption get validated before any real ADA
-                is spent.
-            </p>
-            <p>
-                Below is the school's identity and wallet screen, on Cardano's preprod test
-                network, used to fund the transaction fees for issuing credentials.
-            </p>
-            <figure class="case-figure">
-                <a href="images/edix-blockchain-identity.png" target="_blank" rel="noopener">
-                    <img class="case-image" src="images/edix-blockchain-identity.png" alt="Edix school sovereign identity screen showing wallet address and balance on Cardano preprod" loading="lazy" width="1215" height="705">
-                </a>
-                <figcaption>Tap to open the full-size capture.</figcaption>
-            </figure>
-        </section>
+  <section class="block" data-reveal>
+    <h2>The problem</h2>
+    <p>
+      Primary and secondary schools face two related risks: grades can be altered directly in a
+      school's database, and digital certificates issued to students are hard for anyone outside
+      the school to verify as genuine.
+    </p>
+  </section>
 
-        <section class="block">
-            <h2>Tech Stack</h2>
-            <ul class="tech-stack">
-                <li>Cardano Blockchain</li>
-                <li>Distributed Ledgers</li>
-                <li>Backend Architecture</li>
-                <li>System Design</li>
-            </ul>
-        </section>
-    </main>
+  <section class="block" data-reveal>
+    <h2>The design</h2>
+    <p>
+      Each school gets a sovereign identity (DID) and wallet. When a certificate is issued, its
+      hash — not its contents — is written on-chain as a single transaction. Anyone can then verify
+      a certificate by re-hashing it and checking the result against the chain, with no student data
+      exposed on a public ledger. Grades leave no chain footprint at all until a certificate is
+      actually issued.
+    </p>
+    <p>
+      Cardano was chosen mainly on transaction cost: issuing one hash per certificate at scale needs
+      fees low enough that the per-student cost stays negligible on mainnet, which rules out most
+      higher-fee chains. Running on preprod first lets that cost assumption be validated before any
+      real ADA is spent.
+    </p>
+    <figure class="figure" data-reveal>
+      <a href="images/edix-blockchain-identity.png" target="_blank" rel="noopener">
+        <img src="images/edix-blockchain-identity.png" alt="Edix school sovereign identity screen showing wallet address and balance on Cardano preprod" loading="lazy" width="1215" height="705">
+      </a>
+      <figcaption>School identity and wallet on Cardano preprod. Tap to open full size.</figcaption>
+    </figure>
+  </section>
 
-    <footer class="site-footer">
-        <a href="https://github.com/Yuguda999" target="_blank" rel="noopener">GitHub</a>
-        <a href="mailto:muhammed.yuguda@adeptengr.com">Email</a>
-    </footer>
+  <section class="block" data-reveal>
+    <h2>Current state</h2>
+    <p>
+      Edix is deployed and in real use — schools are issuing credentials through it today, not just
+      running it as a prototype. It currently runs on Cardano's preprod network, so the fees
+      involved are test tokens rather than real money.
+    </p>
+    <p class="note">
+      Kept here for completeness: this is architecture and distributed-systems work, not machine
+      learning. It is on the site because the design reasoning — picking a mechanism on measured
+      cost constraints rather than novelty — is the same reasoning the ML work runs on.
+    </p>
+  </section>
+
+  <section class="block" data-reveal>
+    <h2>Stack</h2>
+    <ul class="tags">
+      <li class="hot">Cardano</li><li>Distributed ledgers</li><li>Backend architecture</li>
+      <li>System design</li>
+    </ul>
+  </section>
+  <nav class="case-next">
+    <a href="campuspq.html">← CampusPQ</a>
+    <a href="index.html#work">All work →</a>
+  </nav>
+</article></main>
+
+<footer class="foot">
+  <div class="foot-in">
+    <div>
+      <a class="brand" href="index.html"><span class="mark">ym</span> Yuguda<span style="color:var(--accent)">.</span></a>
+      <p class="blurb">Machine learning engineer. Production LLM systems, retrieval pipelines and ML infrastructure. Lagos, Nigeria.</p>
+    </div>
+    <div>
+      <h4>Case studies</h4>
+      <ul>
+        <li><a href="proposal.html">Proposal Engine</a></li>
+        <li><a href="fl04.html">FL-04 Orchestrator</a></li>
+        <li><a href="campuspq.html">CampusPQ</a></li>
+        <li><a href="edix.html">Project Edix</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Site</h4>
+      <ul>
+        <li><a href="index.html#work">Selected work</a></li>
+        <li><a href="index.html#capabilities">Capabilities</a></li>
+        <li><a href="index.html#experience">Experience</a></li>
+        <li><a href="MY_AI_ENG_CV.pdf" target="_blank" rel="noopener">CV (PDF)</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Elsewhere</h4>
+      <ul>
+        <li><a href="https://github.com/Yuguda999" target="_blank" rel="noopener">GitHub ↗</a></li>
+        <li><a href="https://linkedin.com/in/yuguda" target="_blank" rel="noopener">LinkedIn ↗</a></li>
+        <li><a href="https://pypi.org/project/devmemory" target="_blank" rel="noopener">PyPI ↗</a></li>
+        <li><a href="mailto:elemenx93@gmail.com">Email</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bar">
+    <span>© 2026 Yuguda Muhammed</span>
+    <span>Built as static HTML — no framework, no tracker.</span>
+  </div>
+</footer>
+
+<div class="cmdk" data-cmdk hidden role="dialog" aria-modal="true" aria-label="Search">
+  <div class="cmdk-panel">
+    <input type="text" placeholder="Jump to a page or project…" aria-label="Search pages and projects">
+    <ul class="cmdk-list">
+      <li><a href="index.html">Home <span class="hint">page</span></a></li>
+      <li><a href="proposal.html">Proposal Generation Engine <span class="hint">case study</span></a></li>
+      <li><a href="fl04.html">FL-04 Orchestrator <span class="hint">case study</span></a></li>
+      <li><a href="campuspq.html">CampusPQ <span class="hint">case study</span></a></li>
+      <li><a href="edix.html">Project Edix <span class="hint">case study</span></a></li>
+      <li><a href="index.html#more">More projects <span class="hint">section</span></a></li>
+      <li><a href="https://github.com/Yuguda999/devmemory" target="_blank" rel="noopener">DevMemory <span class="hint">github</span></a></li>
+      <li><a href="https://github.com/Yuguda999/eeva" target="_blank" rel="noopener">Eeva <span class="hint">github</span></a></li>
+      <li><a href="MY_AI_ENG_CV.pdf" target="_blank" rel="noopener">Download CV <span class="hint">pdf</span></a></li>
+      <li><a href="mailto:elemenx93@gmail.com">Email <span class="hint">contact</span></a></li>
+    </ul>
+    <div class="cmdk-empty" hidden>No matches.</div>
+  </div>
+</div>
+
+<script src="app.js"></script>
 </body>
 </html>

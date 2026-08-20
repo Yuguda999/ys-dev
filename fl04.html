@@ -1,91 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FL-04 Orchestrator | Yuguda Muhammed Shamsudeen</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Space+Grotesk:wght@600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="theme-color" content="#08090A">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FL-04 Orchestrator — Yuguda Muhammed</title>
+<meta name="description" content="Turning a fixed draft/red-team/revise LLM documentation pipeline into an orchestrator agent, served on a local open-weight model.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="site-nav">
-        <span class="brand">YS // DEV</span>
-        <nav class="links">
-            <a href="index.html">Home</a>
-            <a href="fl04.html">FL-04</a>
-            <a href="campuspq.html">CampusPQ</a>
-            <a href="edix.html">Edix</a>
-        </nav>
-    </header>
+<a class="skip" href="#main">Skip to content</a>
 
-    <main>
-        <div class="case-header">
-            <a class="back" href="index.html">&larr; All case studies</a>
-            <h1>FL-04 Orchestrator</h1>
-            <p class="tagline">Upgrading Architectural Decision Record (ADR) documentation: from a fixed workflow toward an agent.</p>
-        </div>
+<header class="nav">
+  <div class="nav-in">
+    <a class="brand" href="index.html"><span class="mark">ym</span> Yuguda<span style="color:var(--accent)">.</span></a>
+    <nav class="nav-links">
+      <a href="index.html#work">Work</a>
+      <a href="index.html#capabilities">Capabilities</a>
+      <a href="index.html#experience">Experience</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+    <div class="nav-tools">
+      <a class="btn-resume" href="MY_AI_ENG_CV.pdf" target="_blank" rel="noopener">Résumé</a>
+      <button class="btn-ghost" data-cmdk-open type="button">
+        <span>Search</span><span class="kbd"><span data-mod>⌘</span>K</span>
+      </button>
+      <button class="btn-ghost btn-icon" data-theme-toggle type="button" aria-label="Toggle theme">☀</button>
+    </div>
+  </div>
+</header>
 
-        <section class="block">
-            <h2>The Problem</h2>
-            <p>
-                Architectural Decision Records (ADRs) were being produced through a manual
-                "Draft &rarr; Red Team &rarr; Revise" loop: one model drafts the ADR, a second
-                model critiques it against a fixed checklist, and the first model revises.
-                Every document goes through all three steps regardless of how trivial or complex
-                the change is, which wastes time and tokens on small updates.
-            </p>
-        </section>
+<main id="main"><article class="case">
+  <header class="case-hero">
+    <a class="back" href="index.html#work">← Selected work</a>
+    <h1 data-reveal="mask">FL-04 Orchestrator</h1>
+    <p class="lede">A draft → red-team → revise pipeline on a locally served open-weight model, and the work to turn that fixed workflow into an agent.</p>
+  </header>
 
-        <section class="block">
-            <h2>Current State: A Workflow, Not an Agent</h2>
-            <p>
-                As it stands today, FL-04 is a <strong>workflow</strong>, not an agent. The
-                sequence of steps is hardcoded &mdash; draft, critique, revise &mdash; and neither
-                model decides when to skip a step or call a tool. It's an evaluator-optimizer
-                pattern: the code, not the LLM, controls the path.
-            </p>
-            <p>
-                The screenshot below is the local inference server (vLLM) that serves the
-                open-weight model behind this pipeline, handling the
-                <code>/v1/chat/completions</code> calls for each draft/critique/revise step.
-            </p>
-            <figure class="case-figure">
-                <a href="images/fl04-vllm-logs.png" target="_blank" rel="noopener">
-                    <img class="case-image" src="images/fl04-vllm-logs.png" alt="vLLM inference server logs showing successful /v1/chat/completions requests" loading="lazy" width="1400" height="597">
-                </a>
-                <figcaption>Tap to open the full-size capture.</figcaption>
-            </figure>
-        </section>
+  <div class="case-facts" data-reveal>
+    <div><div class="k">Type</div><div class="v">LLM systems</div></div>
+    <div><div class="k">Serving</div><div class="v">vLLM, local</div></div>
+    <div><div class="k">Status</div><div class="v">Pipeline live, agent designed</div></div>
+    <div><div class="k">Model</div><div class="v">Open-weight</div></div>
+  </div>
 
-        <section class="block">
-            <h2>The Planned Upgrade: An Orchestrator Agent</h2>
-            <p>
-                To make this an agent, control has to move from the hardcoded sequence into the
-                model itself. The concrete upgrade is an <strong>Orchestrator Agent</strong> that
-                looks at the size of a change first: minor vs. major is decided by a diff-size
-                threshold (lines/files touched by the change) &mdash; below it, the agent drafts
-                and finalizes in one pass, skipping the red team; above it, the agent pulls in
-                extra context (searching the codebase, checking related ADRs) before drafting,
-                and only then decides to invoke the red-team critique. This part is designed,
-                not yet built &mdash; the current live pipeline is still the fixed three-step
-                workflow described above.
-            </p>
-        </section>
+  <section class="block" data-reveal>
+    <h2>The problem</h2>
+    <p>
+      Architectural Decision Records were being produced through a manual
+      "draft → red team → revise" loop: one model drafts the ADR, a second critiques it against a
+      fixed checklist, and the first revises. Every document goes through all three steps
+      regardless of how trivial or complex the change is, which wastes time and tokens on small
+      updates.
+    </p>
+  </section>
 
-        <section class="block">
-            <h2>Tech Stack</h2>
-            <ul class="tech-stack">
-                <li>LLM Workflows</li>
-                <li>vLLM / Local Inference</li>
-                <li>Prompt Engineering</li>
-                <li>Python</li>
-            </ul>
-        </section>
-    </main>
+  <section class="block" data-reveal>
+    <h2>Current state — a workflow, not an agent</h2>
+    <p>
+      As it stands today, FL-04 is a <strong>workflow</strong>, not an agent. The sequence of steps
+      is hardcoded, and neither model decides when to skip a step or call a tool. It is an
+      evaluator–optimizer pattern: the code, not the LLM, controls the path. Naming that honestly
+      matters, because it is what defines the upgrade.
+    </p>
+    <p>
+      Everything runs against a local inference server rather than a hosted API, which keeps the
+      cost of iterating on prompts at zero and keeps the documents in-house. Below is that server
+      handling the <code>/v1/chat/completions</code> calls for each draft, critique and revise step.
+    </p>
+    <figure class="figure" data-reveal>
+      <a href="images/fl04-vllm-logs.png" target="_blank" rel="noopener">
+        <img src="images/fl04-vllm-logs.png" alt="vLLM inference server logs showing successful chat completion requests" loading="lazy" width="1400" height="597">
+      </a>
+      <figcaption>vLLM serving the open-weight model behind the pipeline. Tap to open full size.</figcaption>
+    </figure>
+  </section>
 
-    <footer class="site-footer">
-        <a href="https://github.com/Yuguda999" target="_blank" rel="noopener">GitHub</a>
-        <a href="mailto:muhammed.yuguda@adeptengr.com">Email</a>
-    </footer>
+  <section class="block" data-reveal>
+    <h2>The planned upgrade</h2>
+    <p>
+      To make this an agent, control has to move from the hardcoded sequence into the model itself.
+      The concrete design is an orchestrator agent that sizes the change first — minor versus major
+      decided by a diff-size threshold over lines and files touched.
+    </p>
+    <ul>
+      <li><strong>Below the threshold:</strong> draft and finalise in one pass, skipping the red team entirely.</li>
+      <li><strong>Above it:</strong> pull in extra context — searching the codebase, checking related ADRs — before drafting, and only then decide whether to invoke the critique step.</li>
+    </ul>
+    <p class="note">
+      This part is designed, not yet built. The live pipeline is still the fixed three-step
+      workflow described above.
+    </p>
+  </section>
+
+  <section class="block" data-reveal>
+    <h2>Stack</h2>
+    <ul class="tags">
+      <li class="hot">vLLM</li><li class="hot">Open-weight models</li><li>LLM workflows</li>
+      <li>Prompt engineering</li><li>Python</li>
+    </ul>
+  </section>
+  <nav class="case-next">
+    <a href="proposal.html">← Proposal Engine</a>
+    <a href="campuspq.html">CampusPQ →</a>
+  </nav>
+</article></main>
+
+<footer class="foot">
+  <div class="foot-in">
+    <div>
+      <a class="brand" href="index.html"><span class="mark">ym</span> Yuguda<span style="color:var(--accent)">.</span></a>
+      <p class="blurb">Machine learning engineer. Production LLM systems, retrieval pipelines and ML infrastructure. Lagos, Nigeria.</p>
+    </div>
+    <div>
+      <h4>Case studies</h4>
+      <ul>
+        <li><a href="proposal.html">Proposal Engine</a></li>
+        <li><a href="fl04.html">FL-04 Orchestrator</a></li>
+        <li><a href="campuspq.html">CampusPQ</a></li>
+        <li><a href="edix.html">Project Edix</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Site</h4>
+      <ul>
+        <li><a href="index.html#work">Selected work</a></li>
+        <li><a href="index.html#capabilities">Capabilities</a></li>
+        <li><a href="index.html#experience">Experience</a></li>
+        <li><a href="MY_AI_ENG_CV.pdf" target="_blank" rel="noopener">CV (PDF)</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Elsewhere</h4>
+      <ul>
+        <li><a href="https://github.com/Yuguda999" target="_blank" rel="noopener">GitHub ↗</a></li>
+        <li><a href="https://linkedin.com/in/yuguda" target="_blank" rel="noopener">LinkedIn ↗</a></li>
+        <li><a href="https://pypi.org/project/devmemory" target="_blank" rel="noopener">PyPI ↗</a></li>
+        <li><a href="mailto:elemenx93@gmail.com">Email</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bar">
+    <span>© 2026 Yuguda Muhammed</span>
+    <span>Built as static HTML — no framework, no tracker.</span>
+  </div>
+</footer>
+
+<div class="cmdk" data-cmdk hidden role="dialog" aria-modal="true" aria-label="Search">
+  <div class="cmdk-panel">
+    <input type="text" placeholder="Jump to a page or project…" aria-label="Search pages and projects">
+    <ul class="cmdk-list">
+      <li><a href="index.html">Home <span class="hint">page</span></a></li>
+      <li><a href="proposal.html">Proposal Generation Engine <span class="hint">case study</span></a></li>
+      <li><a href="fl04.html">FL-04 Orchestrator <span class="hint">case study</span></a></li>
+      <li><a href="campuspq.html">CampusPQ <span class="hint">case study</span></a></li>
+      <li><a href="edix.html">Project Edix <span class="hint">case study</span></a></li>
+      <li><a href="index.html#more">More projects <span class="hint">section</span></a></li>
+      <li><a href="https://github.com/Yuguda999/devmemory" target="_blank" rel="noopener">DevMemory <span class="hint">github</span></a></li>
+      <li><a href="https://github.com/Yuguda999/eeva" target="_blank" rel="noopener">Eeva <span class="hint">github</span></a></li>
+      <li><a href="MY_AI_ENG_CV.pdf" target="_blank" rel="noopener">Download CV <span class="hint">pdf</span></a></li>
+      <li><a href="mailto:elemenx93@gmail.com">Email <span class="hint">contact</span></a></li>
+    </ul>
+    <div class="cmdk-empty" hidden>No matches.</div>
+  </div>
+</div>
+
+<script src="app.js"></script>
 </body>
 </html>
