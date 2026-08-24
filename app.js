@@ -61,6 +61,21 @@
             groups.set(p, i + 1);
             io.observe(el);
         });
+
+        /* Safety net: content must never be permanently invisible. If anything
+           is still un-revealed shortly after load while sitting in the viewport,
+           show it. Covers a missed observer callback or a future CSS slip in the
+           reveal rules — a hidden headline is a worse failure than a skipped
+           animation. */
+        addEventListener('load', function () {
+            setTimeout(function () {
+                revealables.forEach(function (el) {
+                    if (el.classList.contains('in')) return;
+                    var r = el.getBoundingClientRect();
+                    if (r.top < innerHeight && r.bottom > 0) el.classList.add('in');
+                });
+            }, 1200);
+        });
     }
 
     /* ---- stat counters -------------------------------------------- */

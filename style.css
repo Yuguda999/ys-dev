@@ -9,7 +9,7 @@
     --bg-lift:   #131619;
     --ink:       #F2F4EF;
     --ink-2:     #B6BAB2;
-    --muted:     #74796F;
+    --muted:     #82877D;
     --line:      #1D2124;
     --line-2:    #2A2F33;
     --accent:    #BEF264;
@@ -34,7 +34,7 @@
     --bg-lift:   #FFFFFF;
     --ink:       #0A0B0C;
     --ink-2:     #3C4046;
-    --muted:     #7B8078;
+    --muted:     #666B63;
     --line:      #E2E2DC;
     --line-2:    #D2D2CA;
     --accent:    #4D7C0F;
@@ -94,8 +94,18 @@ img { max-width: 100%; display: block; }
 .js [data-reveal].in { opacity: 1; transform: none; }
 
 /* clip-up reveal for headings */
-.js [data-reveal="mask"] { opacity: 1; transform: none; clip-path: inset(0 0 100% 0); transition: clip-path .9s var(--ease); transition-delay: var(--d, 0ms); }
-.js [data-reveal="mask"].in { clip-path: inset(0 0 -20% 0); }
+/* inset() rejects negative values — a negative bottom made the ".in" rule
+   invalid, so the heading stayed clipped to nothing forever. Pad the box
+   instead (and pull the padding back off with a negative margin) so a plain
+   inset(0) can clear descenders and the tight line-height's overflow. */
+.js [data-reveal="mask"] {
+    opacity: 1; transform: none;
+    padding-bottom: .16em; margin-bottom: -.16em;
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path .9s var(--ease);
+    transition-delay: var(--d, 0ms);
+}
+.js [data-reveal="mask"].in { clip-path: inset(0 0 0 0); }
 
 @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
