@@ -1,2 +1,6 @@
 dist/
 ys-dev-site.zip
+
+# working notes and third-party docs — not for the public site
+ML Capstone_*.md
+FlyRank_Hackathon_Brief*.docx
