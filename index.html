@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Yuguda Muhammed — Machine Learning Engineer</title>
+<link rel="canonical" href="https://yuguda.netlify.app/">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="/favicon-16.png" sizes="16x16" type="image/png">
@@ -450,8 +451,61 @@
       <h2 data-reveal="mask">Let's build something that ships<span class="accent">.</span></h2>
       <p data-reveal>Open to machine learning and AI engineering roles, remote or hybrid.</p>
       <div class="hero-cta" data-reveal>
-        <a class="btn btn-primary" href="mailto:elemenx93@gmail.com">Email me</a>
+        <a class="btn btn-primary" href="mailto:elemenx93@gmail.com?subject=Technical%20screening%20—%20machine%20learning%20engineering">Email me</a>
+        <a class="btn btn-secondary" href="https://calendly.com/elemenx93/30min" target="_blank" rel="noopener">Book a slot ↗</a>
         <a class="btn btn-secondary" href="https://linkedin.com/in/yuguda" target="_blank" rel="noopener">LinkedIn ↗</a>
+      </div>
+
+      <div class="contact-wrap" data-reveal>
+        <!--
+          Netlify detects this form by parsing the HTML at deploy time.
+          data-netlify="true"     -> register the form and capture POSTs
+          netlify-honeypot        -> names the hidden anti-spam field
+          hidden form-name input  -> tells Netlify which form a POST belongs to
+          action="/thanks.html"   -> where a no-JS browser lands after submitting
+          Every field must exist in the static HTML for Netlify to register it.
+        -->
+        <form
+            class="contact-form"
+            name="contact"
+            method="POST"
+            action="/thanks.html"
+            data-netlify="true"
+            netlify-honeypot="bot-field">
+
+          <input type="hidden" name="form-name" value="contact">
+
+          <p class="hp">
+            <label>Leave this empty: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+          </p>
+
+          <div class="field">
+            <label for="name">Your name</label>
+            <input id="name" name="name" type="text" required autocomplete="name" placeholder="Jane Okafor">
+          </div>
+
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" required autocomplete="email" placeholder="jane@company.com">
+          </div>
+
+          <div class="field">
+            <label for="company">Company / role <span class="opt">(optional)</span></label>
+            <input id="company" name="company" type="text" autocomplete="organization" placeholder="Engineering Manager, Acme">
+          </div>
+
+          <div class="field">
+            <label for="message">What are you building?</label>
+            <textarea id="message" name="message" required placeholder="A sentence or two about the role, or the system you're putting a model into."></textarea>
+          </div>
+
+          <button class="submit-btn" type="submit">Send message</button>
+          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+        </form>
+
+        <p class="form-fallback">
+          Prefer email? <a href="mailto:elemenx93@gmail.com?subject=Technical%20screening%20—%20machine%20learning%20engineering">elemenx93@gmail.com</a>
+        </p>
       </div>
     </div>
   </section>
@@ -524,6 +578,45 @@
 </div>
 
 <script src="app.js"></script>
-<script src="bg.js"></script>
+<script src="bg.js">
+    var form = document.querySelector('form.contact-form');
+    if (!form) return;
+    var status = document.getElementById('form-status');
+
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        var button = form.querySelector('button[type="submit"]');
+        button.disabled = true;
+        button.textContent = 'Sending…';
+        status.textContent = '';
+        status.className = 'form-status';
+
+        fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(new FormData(form)).toString()
+        }).then(function (response) {
+            if (!response.ok) throw new Error('Status ' + response.status);
+            form.reset();
+            status.textContent = 'Thanks — that reached me. I will reply the same day.';
+            status.className = 'form-status ok';
+            button.textContent = 'Sent';
+            if (window.gtag) window.gtag('event', 'contact_form_submit');
+            // long enough that a double-tap can't fire twice, short enough that
+            // someone with a second message isn't forced to reload
+            setTimeout(function () {
+                button.disabled = false;
+                button.textContent = 'Send another message';
+            }, 4000);
+        }).catch(function () {
+            status.textContent = 'Something broke sending that. Email me directly: elemenx93@gmail.com';
+            status.className = 'form-status err';
+            button.disabled = false;
+            button.textContent = 'Send message';
+        });
+    });
+})();
+</script>
 </body>
 </html>
